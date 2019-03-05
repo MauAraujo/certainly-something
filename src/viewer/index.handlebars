@@ -71,7 +71,11 @@
           <div class="panel-list-item">
               <div class="text">{{lookup this 0}}</div>
               {{#if (eq (lookup this 0)  "Common Name")}}
+              {{#if @../last}}
+              <div class="text">{{lookup this 1}}</div>
+              {{else}}
               <div class="text"><a class="issuer-link" id="{{lookup this 1}} {{#if (eq @../index 1)}}(built-in root){{/if}}" href="#">{{lookup this 1}}</a></div>
+              {{/if}}
               {{else}}
               <div class="text">{{lookup this 1}}</div>
               {{/if}}

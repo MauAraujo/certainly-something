@@ -151,3 +151,11 @@ h2 {
 .text-section-header {
   margin: 0 auto;
 }
+
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    color: #0996f8;
+    text-decoration: none;
+}
