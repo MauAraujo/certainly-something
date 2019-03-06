@@ -321,6 +321,12 @@ export const strings = {
         long: 'Extended Key Usages',
       }
     },
+    '1.3.6.1.4.1.311.21.2': {
+       name: {
+        short: 'MS Cert Server Prev',
+        long: 'Microsoft Certificate Server Previous Hash',
+       },
+    },
   },
 
   keyUsages: [
