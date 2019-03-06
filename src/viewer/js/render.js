@@ -50,9 +50,10 @@ const postRender = () => {
 
     // setup event handler for issuer navigation
     for (let node of issuerlink) {
+        let name = new RegExp(node.getAttribute('id') + '+');
         node.addEventListener('click', event => {
             for (let button of buttons) {
-                if ((node.getAttribute('id') == button.textContent)) {
+                if ((name.test(button.textContent))) {
                     button.dispatchEvent(new Event('click'));
                 }
             }
