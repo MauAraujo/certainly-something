@@ -279,12 +279,12 @@ export const parse = async (der) => {
 
   // get the Microsoft certificate server
   let mcsrv = {
-      previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
+    previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
   }
   if(mcsrv.previousHash) {
-      mcsrv.previousHash = {
-          critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
-      };
+    mcsrv.previousHash = {
+      critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
+    };
   }
 
   // Certificate Policies, this stuff is really messy
