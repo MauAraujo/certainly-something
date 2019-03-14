@@ -24,7 +24,7 @@ const postRender = () => {
   const buttons = document.getElementById('certificates').getElementsByClassName('panel-section-tabs-button');
   const certificates = document.getElementsByClassName('certificate');
   const longhexes = document.getElementsByClassName('long-hex');
-  const issuerlink = document.getElementsByClassName('issuer-link');
+  const issuerlinks = document.getElementsByClassName('issuer-link');
 
   // setup the event handlers for tabs
   for (let node of buttons) {
@@ -49,15 +49,14 @@ const postRender = () => {
   }
 
     // setup event handler for issuer navigation
-    for (let node of issuerlink) {
-        let name = new RegExp(node.getAttribute('id') + '+');
-        node.addEventListener('click', event => {
-            for (let button of buttons) {
-                if ((name.test(button.textContent))) {
-                    button.dispatchEvent(new Event('click'));
-                }
-            }
-        });
+    for (let node of issuerlinks) {
+      node.addEventListener('click', event => {
+        for (let button of buttons) {
+          if ((parseInt(node.id) + 1) == button.getAttribute('data-certificate-index')) {
+            button.dispatchEvent(new Event('click'));
+          }
+        }
+      });
     }
 
   // make long hex values expand if clicked upon

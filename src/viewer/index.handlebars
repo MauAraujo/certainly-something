@@ -43,7 +43,7 @@
         {{else}}
           <div class="panel-section" id="panel-section-tabs">
             {{#each certs}}
-              <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
+            <div class="panel-section-tabs-button {{#if @first}}selected{{/if}}" data-certificate-index="{{@index}}">{{ this.subject.cn }} {{#if this.isBuiltInRoot}}(built-in root){{/if}}</div>
             <div class="panel-section-tabs-separator"></div>
             {{/each}}
             <div class="panel-list-item-separator"></div>
@@ -70,11 +70,11 @@
           {{#each this.issuer.entries}}
           <div class="panel-list-item">
               <div class="text">{{lookup this 0}}</div>
-              {{#if (eq (lookup this 0)  "Common Name")}}
+              {{#if @last}}
               {{#if @../last}}
               <div class="text">{{lookup this 1}}</div>
               {{else}}
-              <div class="text"><a class="issuer-link" id="{{lookup this 1}}" href="#">{{lookup this 1}}</a></div>
+              <div class="text"><a class="issuer-link" id="{{@../index}}" href="#">{{lookup this 1}}</a></div>
               {{/if}}
               {{else}}
               <div class="text">{{lookup this 1}}</div>
