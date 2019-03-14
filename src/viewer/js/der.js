@@ -61,7 +61,7 @@ export const parse = async (der) => {
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
     '1.3.6.1.5.5.7.1.1',        // authority info access
     '1.3.6.1.5.5.7.1.24',       // ocsp stapling
-    '1.3.6.1.4.1.311.21.2',     // Microsoft Cert Server previous
+    '1.3.6.1.4.1.311.21.2',     // Microsoft Previous Hash
     '2.5.29.14',                // subject key identifier
     '2.5.29.15',                // key usages
     '2.5.29.17',                // subject alt names
@@ -277,8 +277,7 @@ export const parse = async (der) => {
     timestamps: scts,
   }
 
-    console.log(x509.extensions);
-  // get the Microsoft certificate serv
+  // get the Microsoft certificate server
   let mcsrv = {
       previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
   }

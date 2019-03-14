@@ -323,7 +323,7 @@ export const strings = {
     },
     '1.3.6.1.4.1.311.21.2': {
        name: {
-        short: 'MS Cert Server Prev',
+        short: 'MS Previous Hash',
         long: 'Microsoft Certificate Server Previous Hash',
        },
     },
