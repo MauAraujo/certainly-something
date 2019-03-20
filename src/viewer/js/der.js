@@ -5,6 +5,36 @@ import { strings } from './strings.js';
 import { b64urltodec, b64urltohex, getObjPath, hash, hashify } from './utils.js';
 
 
+var certB =  `-----BEGIN CERTIFICATE-----
+MIIFOjCCBCKgAwIBAgIKYQprewABAAAACDANBgkqhkiG9w0BAQUFADBxMQswCQYD
+VQQGEwJVUzEcMBoGA1UEChMTQmVjaHRlbCBDb3Jwb3JhdGlvbjEdMBsGA1UECxMU
+SW5mb3JtYXRpb24gU2VjdXJpdHkxJTAjBgNVBAMTHEJlY2h0ZWwgRXh0ZXJuYWwg
+UG9saWN5IENBIDIwHhcNMTQwMjE4MTQ0NDI0WhcNMjEwMjEyMTkwOTU0WjCBhjEL
+MAkGA1UEBhMCVVMxFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xHDAaBgNVBAoTE0Jl
+Y2h0ZWwgQ29ycG9yYXRpb24xHTAbBgNVBAsTFEluZm9ybWF0aW9uIFNlY3VyaXR5
+MSIwIAYDVQQDExlJRVhUQ0EtU01JTUUuaWJlY2h0ZWwuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwUnfIkCMsIYCndjh/4nTerLleV6BqMDJYoD7
+7PDJ1mDF8paGv4rum5JH7jwKMk/7D7J+4om4HpVd4jvOw/qlCreUmWaN+kYDHt3l
+zzFaAnX/CRKCxwLqgX5eE0zvDhaa36sO22qb3KqZ4+sALSmrnqeRNj8RZrpD4/on
+pouhJpM3iedymHt0vBmbYmkZpEXmulff1LbmF5mZLKPsws7ckki2ttpHI5tvxosI
+bXibDkTdKNAj4+FE0o2k259meC21GqFei+Fo3K2i7v6XvynVXo5KD8WMjnHDUp0R
+DUunKCWOgxeAcc12xL/4HmafJXi7b+BQpNesbdu7eTmR2BSDUwIDAQABo4IBvDCC
+AbgwCwYDVR0PBAQDAgGGMBIGCSsGAQQBgjcVAQQFAgMBAAEwIwYJKwYBBAGCNxUC
+BBYEFDDjfjcgRWw4yIdPOC0HziOqIwPBMB0GA1UdDgQWBBS34YeWgV4yg04VA/y+
+mOa+TxwZqjAlBgNVHSAEHjAcMAwGCisGAQQB/VICBQEwDAYKKwYBBAH9UgIFAjAZ
+BgkrBgEEAYI3FAIEDB4KAFMAdQBiAEMAQTASBgNVHRMBAf8ECDAGAQH/AgEAMB8G
+A1UdIwQYMBaAFDr5paC/+GOSbq7ElnfBUWZeBr0JMGEGA1UdHwRaMFgwVqBUoFKG
+UGh0dHA6Ly9jZXJ0YXV0aC5iZWNodGVsLmNvbS9DZXJ0RGF0YS9CZWNodGVsJTIw
+RXh0ZXJuYWwlMjBQb2xpY3klMjBDQSUyMDIoMSkuY3JsMHcGCCsGAQUFBwEBBGsw
+aTBnBggrBgEFBQcwAoZbaHR0cDovL2NlcnRhdXRoLmJlY2h0ZWwuY29tL0NlcnRE
+YXRhL3BvbGV4dGNhMDJfQmVjaHRlbCUyMEV4dGVybmFsJTIwUG9saWN5JTIwQ0El
+MjAyKDEpLmNydDANBgkqhkiG9w0BAQUFAAOCAQEAofNZd0ih3yQDzkSSw2wg4i68
+YVjsiT5jL+2cgch9XLmXzuS/oJVieyhwuS6P1I4uAfmzbadF3Kw6X6M9lvLTuWPZ
+wOUigEjUL9BMMdh2GPTHBvwx7qOk81YwavzsWpKHFU662RJ/2xTtsfy58Y+VTVtf
+ckxrfzLCOGcphXNR8nLVX1sxvYbGSddwjOcVJSeWclQhonJlZTLAZt5hYLqm7pqw
+nGWHI/6hGf5gxi3elMM9aaK1yUeFeEsBp/HC0lH8yDmTwUgdFKzuFsyHvYILXH/3
+zGPk75BVQTL2SHBi4FLNEqH84VhaSxC9E91Hg+lQSfH0AOx8YsNXa2fVarf0fQ==
+-----END CERTIFICATE-----`
 
 const getX509Ext = (extensions, v) => {
   for (var extension in extensions) {
@@ -84,7 +114,16 @@ export const parse = async (der) => {
   }
 
   // parse the DER
-  const asn1 = asn1js.fromBER(der.buffer);
+  var certPEM = certB.replace(/(-----(BEGIN|END) CERTIFICATE-----|\n)/g, '');
+  var raw = new Buffer(certPEM, 'base64').toString('binary');
+  //const asn1 = asn1js.fromBER(der.buffer);
+  var certSize = Buffer.byteLength(raw);
+  var buf = new ArrayBuffer(certSize); // 2 bytes for each char
+  var testCert = new Uint8Array(buf);
+  for (var i=0, strLen=cert.length; i < strLen; i++) {
+   testCert[i] = raw.charCodeAt(i);
+  }
+  const asn1 = asn1js.fromBER(testCert.buffer);
   var x509 = new Certificate({ schema: asn1.result });
   x509 = x509.toJSON()
 
@@ -278,15 +317,17 @@ export const parse = async (der) => {
   }
 
   // get the Microsoft certificate server
+  console.log(getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2'));
+  console.log(getX509Ext(x509.extensions, '2.5.29.32'));
   let mcsrv = {
     previousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
   }
   if(mcsrv.previousHash) {
     mcsrv.previousHash = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
+      id: hashify(mcsrv.previousHash.valueBlock.valueHex)
     };
   }
-
   // Certificate Policies, this stuff is really messy
   let cp = getX509Ext(x509.extensions, '2.5.29.32').parsedValue;
   if (cp && cp.hasOwnProperty('certificatePolicies')) {
