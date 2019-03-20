@@ -344,7 +344,7 @@
 
           {{! Microsoft Certificate Server }}
           {{#if this.ext.mcsrv}}
-            <div class="panel-section-subsection">Microsoft</div>
+            <div class="panel-section-subsection">Microsoft Cryptography</div>
               <div class="panel-section-subheader">
                 <span>
                 {{#if this.ext.mcsrv.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if}}
@@ -352,8 +352,8 @@
                 </span>
               </div>
               <div class="panel-list-item">
-                <div class="text">Previous Hash</div>
-                <div class="text breakable">{{this.ext.mcsrv.previousHash}}</div>
+                <div class="text">Previous Hash ID</div>
+                <div class="text breakable">{{this.ext.mcsrv.previousHash.id}}</div>
               </div>
           {{/if}}
 

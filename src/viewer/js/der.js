@@ -284,6 +284,7 @@ export const parse = async (der) => {
   if(mcsrv.previousHash) {
     mcsrv.previousHash = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
+      id: hashify(mcsrv.previousHash.valueBlock.valueHex)
     };
   }
 
