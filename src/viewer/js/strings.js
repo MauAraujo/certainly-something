@@ -43,6 +43,24 @@ export const strings = {
         long: 'Microsoft Certificate Policies',
       }
     },
+    '1.3.6.1.4.1.311.20.2': {
+      name: {
+        short: 'Certificate Type',
+        long: 'Microsoft Enrollment Infrastructure Certificate Type',
+      }
+    },
+    '1.3.6.1.4.1.311.21.1': {
+      name: {
+        short: 'CA Version',
+        long: 'Microsoft Certificate Server CA Version',
+      }
+    },
+    '1.3.6.1.4.1.311.21.1': {
+      name: {
+        short: 'Previous Hash',
+        long: 'Microsoft Certificate Server Previous Hash',
+      }
+    },
 
     // certificate extensions
     '1.3.6.1.4.1.11129.2.4.2': {
@@ -334,12 +352,6 @@ export const strings = {
         short: undefined,
         long: 'Extended Key Usages',
       }
-    },
-    '1.3.6.1.4.1.311.21.2': {
-       name: {
-        short: 'MS Previous Hash',
-        long: 'Microsoft Certificate Server Previous Hash',
-       },
     },
   },
 

@@ -341,21 +341,6 @@
             {{/each}}
           {{/if}}
 
-          {{! Microsoft Certificate Server }}
-          {{#if this.ext.mcsrv}}
-            <div class="panel-section-subsection">Microsoft</div>
-              <div class="panel-section-subheader">
-                <span>
-                {{#if this.ext.mcsrv.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if}}
-                Certificate Server
-                </span>
-              </div>
-              <div class="panel-list-item">
-                <div class="text">Previous Hash</div>
-                <div class="text breakable">{{this.ext.mcsrv.previousHash}}</div>
-              </div>
-          {{/if}}
-
           {{! Certificate transparency }}
           {{#if this.ext.scts.timestamps}}
             <div class="panel-section-subheader">
@@ -425,6 +410,51 @@
               </div>
             {{/if}}
 
+            {{! Certificate Enrollment Infrastructure}}
+            {{#if (truthy this.ext.msCrypto.enrollmentInfrastructure)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.enrollmentInfrastructure.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Enrollment Infrastructure
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Certificate Type</div>
+                <div class="text">{{this.ext.msCrypto.enrollmentInfrastructure.certType}}</div>
+              </div>
+            {{/if}}
+
+            {{! Certificate Server CA Version }}
+            {{#if (truthy this.ext.msCrypto.certServerCAVersion)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.certServerCAVersion.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Certificate Server CA Version
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Certificate Index</div>
+                <div class="text">{{this.ext.msCrypto.certServerCAVersion.certificateIndex}}</div>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Key Index</div>
+                <div class="text">{{this.ext.msCrypto.certServerCAVersion.keyIndex}}</div>
+              </div>
+            {{/if}}
+
+            {{! Certificate Server Previous Hash }}
+            {{#if (truthy this.ext.msCrypto.certServerPreviousHash)}}
+              <div class="panel-section-subheader">
+                <span>
+                  {{#if this.ext.msCrypto.certServerPreviousHash.critical}}<img class="critical" alt="critical extension" title="This extension has been marked as critical, meaning that clients must reject the certificate if they don't understand it." src="../icons/critical.svg">{{/if~}}
+                  Certificate Server Previous Hash
+                </span>
+              </div>
+              <div class="panel-list-item">
+                <div class="text">Hash</div>
+                <div class="text long-hex long-hex-box">{{this.ext.msCrypto.certServerPreviousHash.hash}}</div>
+              </div>
+            {{/if}}
           {{/if}}
 
           {{! Unsupported extensions }}
