@@ -410,7 +410,7 @@
               </div>
             {{/if}}
 
-            {{! Certificate Enrollment Infrastructure}}
+            {{! Certificate Enrollment Infrastructure }}
             {{#if (truthy this.ext.msCrypto.enrollmentInfrastructure)}}
               <div class="panel-section-subheader">
                 <span>
@@ -455,6 +455,7 @@
                 <div class="text long-hex long-hex-box">{{this.ext.msCrypto.certServerPreviousHash.hash}}</div>
               </div>
             {{/if}}
+
           {{/if}}
 
           {{! Unsupported extensions }}

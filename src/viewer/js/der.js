@@ -58,11 +58,11 @@ const parseSubsidiary = (distinguishedNames) => {
 
 export const parse = async (der) => {
   const supportedExtensions = [
-    '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
-    '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.311.20.2',     // microsoft enrollment infrastructure certificate type
     '1.3.6.1.4.1.311.21.1',     // microsoft certificate server ca version
-    '1.3.6.1.4.1.311.21.2',      // microsoft certificate server previous hash
+    '1.3.6.1.4.1.311.21.2',     // microsoft certificate server previous hash
+    '1.3.6.1.4.1.311.21.7',     // microsoft certificate template
+    '1.3.6.1.4.1.311.21.10',    // microsoft certificate policies
     '1.3.6.1.4.1.11129.2.4.2',  // embedded scts
     '1.3.6.1.5.5.7.1.1',        // authority info access
     '1.3.6.1.5.5.7.1.24',       // ocsp stapling
@@ -342,11 +342,11 @@ export const parse = async (der) => {
 
   // now let's parse the Microsoft cryptographic extensions
   let msCrypto = {
-    certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
-    certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
     enrollmentInfrastructure: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.20.2').parsedValue,
     certServerCAVersion: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.1').parsedValue,
     certServerPreviousHash: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.2').parsedValue,
+    certificatePolicies: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.10').parsedValue,
+    certificateTemplate: getX509Ext(x509.extensions, '1.3.6.1.4.1.311.21.7').parsedValue,
   };
 
   if (msCrypto.certificatePolicies) {
@@ -365,14 +365,14 @@ export const parse = async (der) => {
     };
   }
 
-  if(msCrypto.enrollmentInfrastructure) {
+  if (msCrypto.enrollmentInfrastructure) {
     msCrypto.enrollmentInfrastructure = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.20.2'),
       certType: msCrypto.enrollmentInfrastructure.valueBlock.value,
     };
   }
 
-  if(msCrypto.certServerCAVersion) {
+  if (msCrypto.certServerCAVersion) {
     msCrypto.certServerCAVersion = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.1'),
       certificateIndex: msCrypto.certServerCAVersion.certificateIndex,
@@ -380,15 +380,17 @@ export const parse = async (der) => {
     };
   }
 
-  if(msCrypto.certServerPreviousHash) {
+  if (msCrypto.certServerPreviousHash) {
     msCrypto.certServerPreviousHash = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.21.2'),
       hash: hashify(msCrypto.certServerPreviousHash.valueBlock.valueHex),
     };
   }
 
-  msCrypto.exists = (msCrypto.certificatePolicies || msCrypto.certificateTemplate
-    || msCrypto.enrollmentInfrastructure || msCrypto.certServerCAVersion
+  msCrypto.exists = (msCrypto.certificatePolicies
+    || msCrypto.certificateTemplate
+    || msCrypto.enrollmentInfrastructure
+    || msCrypto.certServerCAVersion
     || msCrypto.certServerPreviousHash ) ? true : false;
 
   // determine which extensions weren't supported
