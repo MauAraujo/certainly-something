@@ -368,7 +368,7 @@ export const parse = async (der) => {
   if (msCrypto.enrollmentInfrastructure) {
     msCrypto.enrollmentInfrastructure = {
       critical: criticalExtensions.includes('1.3.6.1.4.1.311.20.2'),
-      certType: msCrypto.enrollmentInfrastructure.valueBlock.value,
+      certType: strings.microsoftTemplateStructure[msCrypto.enrollmentInfrastructure.valueBlock.value],
     };
   }
 
